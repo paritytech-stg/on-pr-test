@@ -1,23 +1,19 @@
-name: Create a PR from actions
+name: Create a PR from actions (default GH token)
 on: 
-    workflow_dispatch:
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: write
 
 jobs:
     main_job:
         runs-on: ubuntu-latest
-        steps:
-          - name: Generate a token
-            id: gen_token
-            uses: actions/create-github-app-token@v1
-            with:
-                app-id: ${{ secrets.PR_APP_ID }}
-                private-key: ${{ secrets.PR_APP_KEY }}
-                owner: ${{ github.repository_owner }}
-          
+        steps:          
           - name: Checkout the source
             uses: actions/checkout@v4
             with:
-                token: ${{ steps.gen_token.outputs.token }}
+                token: ${{ github.token }}
                 path: repo
 
           - name: Update some files
@@ -29,7 +25,7 @@ jobs:
           - uses: peter-evans/create-pull-request@v6
             id: create-pr
             with:
-                token: ${{ steps.gen_token.outputs.token }}
+                token: ${{ github.token }}
                 committer: CICD team <cicd-team@parity.io>
                 author: CICD team <cicd-team@parity.io>
                 path: repo
