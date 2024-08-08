@@ -1,0 +1,19 @@
+name: Test on PR behavior
+on: pull_request
+
+jobs:
+    main_job:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Print the github SHA
+            env:
+                SHA: ${{ github.sha }}
+            run: |
+                echo "SHA: $SHA"
+          
+          - name: Checkout the source
+            uses: actions/checkout@v4
+
+          - name: ls
+            run: |
+                ls -alh
