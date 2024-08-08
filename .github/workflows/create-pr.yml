@@ -16,7 +16,7 @@ jobs:
           - name: Checkout the source
             uses: actions/checkout@v4
             with:
-                token: ${{ steps.gen_token.token }}
+                token: ${{ steps.gen_token.outputs.token }}
                 path: repo
 
           - name: Update some files
@@ -28,7 +28,7 @@ jobs:
           - uses: peter-evans/create-pull-request@v6
             id: create-pr
             with:
-                token: ${{ steps.gen_token.token }}
+                token: ${{ steps.gen_token.outputs.token }}
                 committer: CICD team <cicd-team@parity.io>
                 author: CICD team <cicd-team@parity.io>
                 path: repo
